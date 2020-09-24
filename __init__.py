@@ -45,7 +45,8 @@ class CommunicationSkill(MycroftSkill):
     def handle_place_call(self, message):
         if self.neon_in_request(message):
             if self.check_for_signal('CORE_useHesitation', -1):
-                self.speak("Just a moment.")
+                self.speak_dialog("one_moment")
+                # self.speak("Just a moment.")
             utt = message.data.get("utterance")
             request = message.data.get("contact")
             self.query_replies[request] = []
@@ -60,7 +61,8 @@ class CommunicationSkill(MycroftSkill):
     def handle_send_message(self, message):
         if self.neon_in_request(message):
             if self.check_for_signal('CORE_useHesitation', -1):
-                self.speak("Just a moment.")
+                self.speak_dialog("one_moment")
+                # self.speak("Just a moment.")
             utt = message.data.get("utterance")
             request = utt.replace(message.data.get("Neon", ""), "")
             self.query_replies[request] = []
