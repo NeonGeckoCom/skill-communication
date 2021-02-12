@@ -1,19 +1,19 @@
-# ![](https://0000.us/klatchat/app/files/neon_images/icons/neon_paw.png)Communication
+# <img src='https://0000.us/klatchat/app/files/neon_images/icons/neon_skill.png' card_color="#FF8600" width="50" style="vertical-align:bottom">Communication
 
-# Summary
+## Summary
 
 Skill for the Common Message Skill framework.
 
-# Requirements
+## Requirements
 
 Any special requirements should be listed here
 
-# Description
+## Description
 
 This handles requests to send messages and place calls by communicating 
 with all call and message handling skills and selecting the appropriate one to handle a request
 
-# How to Use
+## Examples
 
 Place Call:
 - call Daniel
@@ -23,11 +23,11 @@ Send a Message:
 - Send a text message to Daniel that says hello
 - Send a sip message to neongecko@sip.antisip.com hi
 
-# Location
+## Location
 
     ${skills}/Communication.neon
 
-# Examples
+## Details
 
 ### Text
 
@@ -40,11 +40,11 @@ Send a Message:
 
   
 
-# Contact Support
+## Contact Support
 
 Use the [link](https://neongecko.com/ContactUs) or [submit an issue on GitHub](https://help.github.com/en/articles/creating-an-issue)
 
-# Credits
+## Credits
 
 [NeonDaniel](https://github.com/NeonDaniel) [neongeckocom](https://neongecko.com/) Mycroft AI
 

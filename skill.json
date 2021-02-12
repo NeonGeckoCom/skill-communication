@@ -1,0 +1,42 @@
+{
+    "title": "Communication",
+    "url": "https://github.com/NeonGeckoCom/Communication.neon",
+    "summary": "Skill for the Common Message Skill framework.",
+    "short_description": "Skill for the Common Message Skill framework.",
+    "description": "This handles requests to send messages and place calls by communicating with all call and message handling skills and selecting the appropriate one to handle a request",
+    "examples": [
+        "call daniel",
+        "call 555-555-5555",
+        "send a text message to daniel that says hello",
+        "send a sip message to neongecko@sip.antisip.com hi"
+    ],
+    "desktopFile": false,
+    "warning": "",
+    "systemDeps": false,
+    "requirements": {
+        "python": [],
+        "system": {},
+        "skill": []
+    },
+    "platforms": [
+        "i386",
+        "x86_64",
+        "ia64",
+        "arm64",
+        "arm"
+    ],
+    "branch": "master",
+    "license": "NeonAI License v1.0",
+    "icon": "https://0000.us/klatchat/app/files/neon_images/icons/neon_skill.png",
+    "category": "",
+    "categories": [
+        ""
+    ],
+    "tags": [
+        ""
+    ],
+    "skillname": "Communication",
+    "authorname": "Neon",
+    "foldername": "Communication.neon",
+    "download_url": "https://api.github.com/repos/NeonGeckoCom/Communication.neon/zipball/master"
+}
