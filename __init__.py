@@ -18,14 +18,12 @@
 # China Patent: CN102017585  -  Europe Patent: EU2156652  -  Patents Pending
 
 from threading import Lock
-from time import sleep
 
 from adapt.intent import IntentBuilder
-from mycroft import MycroftSkill
-from mycroft.util import LOG
+from neon_utils.skills.neon_skill import NeonSkill, LOG
 
 
-class CommunicationSkill(MycroftSkill):
+class CommunicationSkill(NeonSkill):
     def __init__(self):
         super(CommunicationSkill, self).__init__(name="Communication")
         self.query_replies = {}
