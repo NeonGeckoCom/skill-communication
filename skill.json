@@ -14,7 +14,9 @@
     "warning": "",
     "systemDeps": false,
     "requirements": {
-        "python": [],
+        "python": [
+            "git+https://github.com/neongeckocom/neon-skill-utils"
+        ],
         "system": {},
         "skill": []
     },
@@ -38,6 +40,5 @@
     ],
     "skillname": "Communication",
     "authorname": "Neon",
-    "foldername": "Communication.neon",
-    "download_url": "https://api.github.com/repos/NeonGeckoCom/Communication.neon/zipball/master"
+    "foldername": null
 }
