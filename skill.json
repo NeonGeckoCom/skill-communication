@@ -1,6 +1,6 @@
 {
     "title": "Communication",
-    "url": "https://github.com/NeonGeckoCom/Communication.neon",
+    "url": "https://github.com/NeonGeckoCom/skill-communication.git",
     "summary": "Skill for the Common Message Skill framework.",
     "short_description": "Skill for the Common Message Skill framework.",
     "description": "This handles requests to send messages and place calls by communicating with all call and message handling skills and selecting the appropriate one to handle a request",
@@ -29,7 +29,7 @@
         "arm"
     ],
     "branch": "master",
-    "license": "NeonAI License v1.0",
+    "license": "BSD-3-Clause",
     "icon": "https://0000.us/klatchat/app/files/neon_images/icons/neon_skill.png",
     "category": "",
     "categories": [
@@ -37,6 +37,10 @@
     ],
     "tags": [
         ""
+    ],
+    "credits": [
+        "NeonDaniel",
+        "NeonGeckoCom"
     ],
     "skillname": "Communication",
     "authorname": "NeonGeckoCom",
