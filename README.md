@@ -47,3 +47,7 @@ Use the [link](https://neongecko.com/ContactUs) or [submit an issue on GitHub](h
 ## Credits
 [NeonDaniel](https://github.com/NeonDaniel)
 [NeonGeckoCom](https://github.com/NeonGeckoCom)
+
+## Tags
+#NeonGecko Original
+#NeonAI
