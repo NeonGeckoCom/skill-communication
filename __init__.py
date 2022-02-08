@@ -27,9 +27,10 @@
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from threading import Lock
-
 from adapt.intent import IntentBuilder
 from neon_utils.skills.neon_skill import NeonSkill, LOG
+from neon_utils.signal_utils import check_for_signal
+from mycroft.skills import intent_handler, intent_file_handler
 
 
 class CommunicationSkill(NeonSkill):
@@ -40,42 +41,44 @@ class CommunicationSkill(NeonSkill):
         self.lock = Lock()
 
     def initialize(self):
-        self.add_event("communication:request.message.response", self.handle_send_message_response)
-        self.add_event("communication:request.call.response", self.handle_place_call_response)
+        self.add_event("communication:request.call.response",
+                       self.handle_place_call_response)
+        self.add_event("communication:request.message.response",
+                       self.handle_send_message_response)
 
-        send_message_intent = IntentBuilder("SendMessageIntent")\
-            .optionally("Neon").require("draft").require("message").build()
-        self.register_intent(send_message_intent, self.handle_send_message)
-
-        self.register_intent_file("call.intent", self.handle_place_call)
-
+    @intent_file_handler("call.intent")
     def handle_place_call(self, message):
         if self.neon_in_request(message):
-            if self.check_for_signal('CORE_useHesitation', -1):
+            # TODO: Move hesitation to user preference DM
+            if check_for_signal('CORE_useHesitation', -1):
                 self.speak_dialog("one_moment")
-                # self.speak("Just a moment.")
             utt = message.data.get("utterance")
             request = message.data.get("contact")
+            # TODO: This should use a UID, rather than the requested contact DM
             self.query_replies[request] = []
             self.query_extensions[request] = []
-            self.bus.emit(message.forward("communication:request.call", data={"utterance": utt,
-                                                                              "request": request}))
+            self.bus.emit(message.forward("communication:request.call",
+                                          data={"utterance": utt,
+                                                "request": request}))
             # Give skills one second to reply to this request
             self.schedule_event(self._place_call_timeout, 1,
                                 data={"request": request},
                                 name="PlaceCallTimeout")
 
+    @intent_handler(IntentBuilder("SendMessageIntent")
+                    .optionally("Neon").require("draft").require("message"))
     def handle_send_message(self, message):
         if self.neon_in_request(message):
-            if self.check_for_signal('CORE_useHesitation', -1):
+            if check_for_signal('CORE_useHesitation', -1):
                 self.speak_dialog("one_moment")
-                # self.speak("Just a moment.")
             utt = message.data.get("utterance")
-            request = utt.replace(message.data.get("Neon", ""), "")
+            # TODO: This should use a UID, rather than the request utterance DM
+            request = utt.replace(message.data.get("Neon", ""), "").strip()
             self.query_replies[request] = []
             self.query_extensions[request] = []
-            self.bus.emit(message.forward("communication:request.message", data={"utterance": utt,
-                                                                                 "request": request}))
+            self.bus.emit(message.forward("communication:request.message",
+                                          data={"utterance": utt,
+                                                "request": request}))
             # Give skills one second to reply to this request
             self.schedule_event(self._send_message_timeout, 1,
                                 data={"request": request},
@@ -92,7 +95,7 @@ class CommunicationSkill(NeonSkill):
                 if message.data["searching"]:
                     # extend the timeout by 5 seconds
                     self.cancel_scheduled_event("PlaceCallTimeout")
-                    LOG.debug(f"DM: Timeout in 5s for {skill_id}")
+                    LOG.debug(f"Timeout in 5s for {skill_id}")
                     self.schedule_event(self._place_call_timeout, 5,
                                         data={"request": request},
                                         name='PlaceCallTimeout')
@@ -101,14 +104,12 @@ class CommunicationSkill(NeonSkill):
                     if skill_id not in self.query_extensions[request]:
                         self.query_extensions[request].append(skill_id)
                 else:
-                    LOG.debug(f"DM: {skill_id} has a response")
+                    LOG.debug(f"{skill_id} has a response")
                     # Search complete, don't wait on this skill any longer
                     if skill_id in self.query_extensions[request]:
                         self.query_extensions[request].remove(skill_id)
-                        LOG.debug(f"DM: test {self.query_extensions[request]}")
                         if not self.query_extensions[request]:
                             self.cancel_scheduled_event("PlaceCallTimeout")
-                            LOG.debug("DM: Timeout in 1s")
                             self.schedule_event(self._place_call_timeout, 1,
                                                 data={"request": request},
                                                 name='PlaceCallTimeout')
@@ -136,7 +137,7 @@ class CommunicationSkill(NeonSkill):
                 if message.data["searching"]:
                     # extend the timeout by 5 seconds
                     self.cancel_scheduled_event("SendMessageTimeout")
-                    LOG.debug(f"DM: Timeout in 5s for {skill_id}")
+                    LOG.debug(f"Timeout in 5s for {skill_id}")
                     self.schedule_event(self._send_message_timeout, 5,
                                         data={"request": request},
                                         name='SendMessageTimeout')
@@ -145,14 +146,12 @@ class CommunicationSkill(NeonSkill):
                     if skill_id not in self.query_extensions[request]:
                         self.query_extensions[request].append(skill_id)
                 else:
-                    LOG.debug(f"DM: {skill_id} has a response")
+                    LOG.debug(f"{skill_id} has a response")
                     # Search complete, don't wait on this skill any longer
                     if skill_id in self.query_extensions[request]:
                         self.query_extensions[request].remove(skill_id)
-                        LOG.debug(f"DM: test {self.query_extensions[request]}")
                         if not self.query_extensions[request]:
                             self.cancel_scheduled_event("SendMessageTimeout")
-                            LOG.debug("DM: Timeout in 1s")
                             self.schedule_event(self._send_message_timeout, 1,
                                                 data={"request": request},
                                                 name='SendMessageTimeout')
@@ -170,7 +169,6 @@ class CommunicationSkill(NeonSkill):
                                             name='SendMessageTimeout')
 
     def _place_call_timeout(self, message):
-        LOG.debug(f"DM: TIMEOUT!")
         with self.lock:
             # Prevent any late-comers from retriggering this query handler
             request = message.data["request"]
@@ -194,20 +192,12 @@ class CommunicationSkill(NeonSkill):
                     # TODO: Ask user to pick between ties or do it automagically
                     pass
 
-                LOG.info(f"DM: match={best}")
+                LOG.info(f"match={best}")
                 # invoke best match
                 send_data = {"skill_id": best["skill_id"],
                              "request": best["request"],
                              "skill_data": best["skill_data"]}
                 self.bus.emit(message.forward("communication:place.call", send_data))
-                # TODO: Handle this in subclassed skills
-                # self.gui.show_page("controls.qml", override_idle=True)
-                # LOG.info("Playing with: {}".format(best["skill_id"]))
-                # start_data = {"skill_id": best["skill_id"],
-                #               "phrase": search_phrase,
-                #               "callback_data": best.get("callback_data")}
-                # self.bus.emit(message.forward('play:start', start_data))
-                # self.has_played = True
 
             else:
                 LOG.info("   No matches")
@@ -219,7 +209,6 @@ class CommunicationSkill(NeonSkill):
                 del self.query_extensions[request]
 
     def _send_message_timeout(self, message):
-        LOG.debug(f"DM: TIMEOUT!")
         with self.lock:
             # Prevent any late-comers from retriggering this query handler
             request = message.data["request"]
@@ -243,21 +232,12 @@ class CommunicationSkill(NeonSkill):
                     # TODO: Ask user to pick between ties or do it automagically
                     pass
 
-                LOG.info(f"DM: match={best}")
+                LOG.info(f"match={best}")
                 # invoke best match
                 send_data = {"skill_id": best["skill_id"],
                              "request": best["request"],
                              "skill_data": best["skill_data"]}
                 self.bus.emit(message.forward("communication:send.message", send_data))
-                # TODO: Handle this in subclassed skills
-                # self.gui.show_page("controls.qml", override_idle=True)
-                # LOG.info("Playing with: {}".format(best["skill_id"]))
-                # start_data = {"skill_id": best["skill_id"],
-                #               "phrase": search_phrase,
-                #               "callback_data": best.get("callback_data")}
-                # self.bus.emit(message.forward('play:start', start_data))
-                # self.has_played = True
-
             else:
                 LOG.info("   No matches")
                 self.speak_dialog("cant.send", private=True)
