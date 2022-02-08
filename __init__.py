@@ -66,14 +66,14 @@ class CommunicationSkill(NeonSkill):
                                 name="PlaceCallTimeout")
 
     @intent_handler(IntentBuilder("SendMessageIntent")
-                    .optionally("Neon").require("draft").require("message"))
+                    .optionally("neon").require("draft").require("message"))
     def handle_send_message(self, message):
         if self.neon_in_request(message):
             if check_for_signal('CORE_useHesitation', -1):
                 self.speak_dialog("one_moment")
             utt = message.data.get("utterance")
             # TODO: This should use a UID, rather than the request utterance DM
-            request = utt.replace(message.data.get("Neon", ""), "").strip()
+            request = utt.replace(message.data.get("neon", ""), "").strip()
             self.query_replies[request] = []
             self.query_extensions[request] = []
             self.bus.emit(message.forward("communication:request.message",
@@ -201,7 +201,7 @@ class CommunicationSkill(NeonSkill):
 
             else:
                 LOG.info("   No matches")
-                self.speak_dialog("cant.send", private=True)
+                self.speak_dialog("cant_send", private=True)
 
             if request in self.query_replies:
                 del self.query_replies[request]
@@ -240,7 +240,7 @@ class CommunicationSkill(NeonSkill):
                 self.bus.emit(message.forward("communication:send.message", send_data))
             else:
                 LOG.info("   No matches")
-                self.speak_dialog("cant.send", private=True)
+                self.speak_dialog("cant_send", private=True)
 
             if request in self.query_replies:
                 del self.query_replies[request]
