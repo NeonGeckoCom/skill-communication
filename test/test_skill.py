@@ -195,7 +195,7 @@ class TestSkill(unittest.TestCase):
         valid_message = Message("test", {"utterance": "valid test"},
                                 {"neon_should_respond": True})
         valid_extension = Message("test", {"utterance": "neon valid extension",
-                                           "Neon": "neon"},
+                                           "neon": "neon"},
                                   {"neon_should_respond": True})
         invalid_message = Message("test", {"utterance": "invalid test"},
                                   {"neon_should_respond": True})
