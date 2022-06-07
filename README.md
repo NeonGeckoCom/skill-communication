@@ -4,10 +4,6 @@
 
 Skill for the Common Message Skill framework.
 
-## Requirements
-
-Any special requirements should be listed here
-
 ## Description
 
 This handles requests to send messages and place calls by communicating 
@@ -22,23 +18,6 @@ Place Call:
 Send a Message:
 - Send a text message to Daniel that says hello
 - Send a sip message to neongecko@sip.antisip.com hi
-
-## Location
-
-    ${skills}/Communication.neon
-
-## Details
-
-### Text
-
-        {example user input}
-        >> {example response}
-
-### Picture
-
-### Video
-
-  
 
 ## Contact Support
 
