@@ -15,7 +15,7 @@
     "systemDeps": false,
     "requirements": {
         "python": [
-            "neon-utils~=0.6"
+            "neon-utils~=1.0,>=1.0.0a1"
         ],
         "system": {},
         "skill": []
