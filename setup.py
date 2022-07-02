@@ -86,7 +86,7 @@ with open("./version.py", "r", encoding="utf-8") as v:
 setup(
     name=f"neon-{SKILL_NAME}",
     version=version,
-    url='https://github.com/NeonGeckoCom/skill-communication',
+    url=f'https://github.com/NeonGeckoCom/{SKILL_NAME}',
     license='BSD-3-Clause',
     install_requires=get_requirements("requirements.txt"),
     author='Neongecko',
