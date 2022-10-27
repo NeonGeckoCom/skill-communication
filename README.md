@@ -7,17 +7,7 @@ Skill for the Common Message Skill framework.
 ## Description
 
 This handles requests to send messages and place calls by communicating 
-with all call and message handling skills and selecting the appropriate one to handle a request
-
-## Examples
-
-Place Call:
-- call Daniel
-- call 555-555-5555
-
-Send a Message:
-- Send a text message to Daniel that says hello
-- Send a sip message to neongecko@sip.antisip.com hi
+with all call and message handling skills and selecting the appropriate one to handle a request.
 
 ## Contact Support
 
