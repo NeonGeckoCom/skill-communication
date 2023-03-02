@@ -28,7 +28,10 @@
 
 from threading import Lock
 from adapt.intent import IntentBuilder
-from neon_utils.skills.neon_skill import NeonSkill, LOG
+from ovos_utils.log import LOG
+from ovos_utils import classproperty
+from ovos_utils.process_utils import RuntimeRequirements
+from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.signal_utils import check_for_signal
 from mycroft.skills import intent_handler, intent_file_handler
 
@@ -39,6 +42,18 @@ class CommunicationSkill(NeonSkill):
         self.query_replies = {}
         self.query_extensions = {}
         self.lock = Lock()
+
+    @classproperty
+    def runtime_requirements(self):
+        return RuntimeRequirements(network_before_load=False,
+                                   internet_before_load=False,
+                                   gui_before_load=False,
+                                   requires_internet=True,
+                                   requires_network=True,
+                                   requires_gui=False,
+                                   no_internet_fallback=True,
+                                   no_network_fallback=False,
+                                   no_gui_fallback=True)
 
     def initialize(self):
         self.add_event("communication:request.call.response",
