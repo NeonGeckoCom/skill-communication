@@ -37,8 +37,8 @@ from mycroft.skills import intent_handler, intent_file_handler
 
 
 class CommunicationSkill(NeonSkill):
-    def __init__(self):
-        super(CommunicationSkill, self).__init__(name="Communication")
+    def __init__(self, **kwargs):
+        super(CommunicationSkill, self).__init__(**kwargs)
         self.query_replies = {}
         self.query_extensions = {}
         self.lock = Lock()
@@ -261,7 +261,3 @@ class CommunicationSkill(NeonSkill):
                 del self.query_replies[request]
             if request in self.query_extensions:
                 del self.query_extensions[request]
-
-
-def create_skill():
-    return CommunicationSkill()
