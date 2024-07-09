@@ -33,12 +33,12 @@ from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.signal_utils import check_for_signal
-from mycroft.skills import intent_handler, intent_file_handler
+from ovos_workshop.decorators import intent_handler
 
 
 class CommunicationSkill(NeonSkill):
-    def __init__(self):
-        super(CommunicationSkill, self).__init__(name="Communication")
+    def __init__(self, **kwargs):
+        super(CommunicationSkill, self).__init__(**kwargs)
         self.query_replies = {}
         self.query_extensions = {}
         self.lock = Lock()
@@ -61,7 +61,7 @@ class CommunicationSkill(NeonSkill):
         self.add_event("communication:request.message.response",
                        self.handle_send_message_response)
 
-    @intent_file_handler("call.intent")
+    @intent_handler("call.intent")
     def handle_place_call(self, message):
         if self.neon_in_request(message):
             # TODO: Move hesitation to user preference DM
@@ -261,7 +261,3 @@ class CommunicationSkill(NeonSkill):
                 del self.query_replies[request]
             if request in self.query_extensions:
                 del self.query_extensions[request]
-
-
-def create_skill():
-    return CommunicationSkill()
