@@ -27,13 +27,13 @@
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from threading import Lock
-from adapt.intent import IntentBuilder
 from ovos_utils.log import LOG
 from ovos_utils import classproperty
 from ovos_utils.process_utils import RuntimeRequirements
 from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.signal_utils import check_for_signal
 from ovos_workshop.decorators import intent_handler
+from ovos_workshop.intents import IntentBuilder
 
 
 class CommunicationSkill(NeonSkill):
