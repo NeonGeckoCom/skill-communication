@@ -1,20 +1,12 @@
 # Changelog
 
-## [0.1.2a2](https://github.com/NeonGeckoCom/skill-communication/tree/0.1.2a2) (2025-03-11)
+## [0.1.3a1](https://github.com/NeonGeckoCom/skill-communication/tree/0.1.3a1) (2025-07-31)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-communication/compare/0.1.2a1...0.1.2a2)
-
-**Merged pull requests:**
-
-- Update automation, gitignore, and license notices [\#42](https://github.com/NeonGeckoCom/skill-communication/pull/42) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [0.1.2a1](https://github.com/NeonGeckoCom/skill-communication/tree/0.1.2a1) (2024-09-13)
-
-[Full Changelog](https://github.com/NeonGeckoCom/skill-communication/compare/0.1.1...0.1.2a1)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-communication/compare/0.1.2...0.1.3a1)
 
 **Merged pull requests:**
 
-- Update OVOS dependencies to allow 0.x versions [\#41](https://github.com/NeonGeckoCom/skill-communication/pull/41) ([NeonDaniel](https://github.com/NeonDaniel))
+- ukrainian translation [\#44](https://github.com/NeonGeckoCom/skill-communication/pull/44) ([NeonDmitry](https://github.com/NeonDmitry))
 
 
 
